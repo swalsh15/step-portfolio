@@ -1,9 +1,58 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+html, body {
+  height: 100%; 
 }
 
-#greeting-container {
-  margin-top: 20px;
+.wrapper {  
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  max-width: 800px;
+}
+
+.welcome {
+  height: 100%;
+}
+
+.left {
+  width: 50%;
+}
+
+.right {
+  align-self: auto;
+  text-align: center;
+  width: 50%;
+}
+
+img {
+  border-radius: 15%; 
+  display: block;
+  margin: auto; 
+  max-height: 350px;
+}
+
+.header {
+  background: rgb(88, 85, 85);
+  color: aliceblue;
+  position: relative;
+  text-align: left;
+  top: 0;
+  width: 100%;
+}
+
+.social-link {
+  padding: 5%;
+}
+
+.about {
+  justify-content: center;
+  margin: auto;
+  max-width: 800px;  
+}
+
+h1, p {
+  padding: 10px;
+}
+
+h1, p, h2 {
+  font-family: sans-serif;
 }
