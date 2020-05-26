@@ -1,9 +1,46 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+html, body {
+  height: 100%; 
+  margin: 0px;
+  font-family: sans-serif;
 }
 
-#greeting-container {
-  margin-top: 20px;
+.wrapper {  
+  display: flex;
+  justify-content: center;
+}
+
+.profile-pic {
+  width: 50%;
+}
+
+.summary {
+  text-align: center;
+  width: 50%;
+}
+
+#headshot {
+  border-radius: 15%; 
+  display: block;
+  margin: auto; 
+  max-height: 350px;
+}
+
+.header {
+  background: #757272;
+  color: aliceblue;
+  text-align: left;
+  width: 100%;
+}
+
+.social-link {
+  padding: 5%;
+}
+
+#about-text {
+  padding: 10px;
+}
+
+main {
+    margin: auto; 
+    max-width: 800px; 
 }
