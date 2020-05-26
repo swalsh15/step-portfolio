@@ -2,20 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Steph Walsh</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
+
     <!-- TODO: sticky header --> 
-    <h1 class="header">Steph Walsh</h1> 
+    <header class="header">
+      <h1>Steph Walsh</h1> 
+    </header>
 
-
+    <main>
     <div class="wrapper">    
-      <div class="left"> 
-        <img src="/images/profile.jpg" alt="Profile Picture"> 
+      <div class="profile-pic"> 
+        <img id="headshot" src="/images/profile.jpg" alt="Profile Picture"> 
       </div> 
-      <div class="right"> 
+      <div class="summary"> 
         <h1>Stephanie Walsh</h1>
         <h2>I'm currently a STEP intern at Google.</h2> 
         <div class="social">
@@ -27,15 +30,18 @@
     </div>
     
     <div class="about">
-      <h1>About</h1> 
-      <p>I'm a rising junior at the University of Pennsylvania studying computer science. 
-         I'm currently working as a STEP intern for Google. This year the internship 
-         consists of technical training projects and a capstone project. Check out my 
-         Github to see what I'm currently working on! 
+      <h1 id="about-text">About</h1> 
+      <p id="about-text">
+          I'm a rising junior at the University of Pennsylvania studying computer science. 
+          I'm currently working as a STEP intern for Google. This year the internship 
+          consists of technical training projects and a capstone project. Check out my 
+          Github to see what I'm currently working on! 
       </p>
-      <p>Outside of work I enjoy hiking, running, and golf. At school I play on the 
-         Women's Ultimate Frisbee Team and am a TA for CIS110: Introduction to Programming.   
+      <p id="about-text">
+        Outside of work I enjoy hiking, running, and golf. At school I play on the 
+        Women's Ultimate Frisbee Team and am a TA for CIS110: Introduction to Programming.   
       </p>
     </div> 
+    </main>
   </body>
 </html>

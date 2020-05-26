@@ -1,29 +1,24 @@
 html, body {
   height: 100%; 
+  margin: 0px;
+  font-family: sans-serif;
 }
 
 .wrapper {  
   display: flex;
   justify-content: center;
-  margin: auto;
-  max-width: 800px;
 }
 
-.welcome {
-  height: 100%;
-}
-
-.left {
+.profile-pic {
   width: 50%;
 }
 
-.right {
-  align-self: auto;
+.summary {
   text-align: center;
   width: 50%;
 }
 
-img {
+#headshot {
   border-radius: 15%; 
   display: block;
   margin: auto; 
@@ -31,11 +26,9 @@ img {
 }
 
 .header {
-  background: rgb(88, 85, 85);
+  background: #757272;
   color: aliceblue;
-  position: relative;
   text-align: left;
-  top: 0;
   width: 100%;
 }
 
@@ -43,16 +36,11 @@ img {
   padding: 5%;
 }
 
-.about {
-  justify-content: center;
-  margin: auto;
-  max-width: 800px;  
-}
-
-h1, p {
+#about-text {
   padding: 10px;
 }
 
-h1, p, h2 {
-  font-family: sans-serif;
+main {
+    margin: auto; 
+    max-width: 800px; 
 }
