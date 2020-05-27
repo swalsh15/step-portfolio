@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-/*
-* Scrolls to top of element with id "project"
-*/
-function scrollToProjects() {
-  document.getElementById("project").scrollIntoView({behavior: 'smooth'});
-}
-
 /*
 * Scrolls to top of element with id "top"- top of page
 */
-function scrollToTop() {
-  document.getElementById("top").scrollIntoView({behavior: 'smooth'});
+function scrollToID(id) {
+  document.getElementById(id).scrollIntoView({behavior: 'smooth'});
 }
