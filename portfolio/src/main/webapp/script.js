@@ -13,8 +13,30 @@
 // limitations under the License.
 
 /*
-* Scrolls to top of element with id "top"- top of page
+* Scrolls to top of element with id "top"- top of page. Adjusts scroll position to account for
+* height for header/navigation bar
 */
 function scrollToID(id) {
-  document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+  var y = document.getElementById(id).offsetTop - document.getElementById("header").offsetHeight;
+  //console.log("height of header " + document.getElementById("header").offsetHeight);
+  console.log("top of elm " + document.getElementById(id).offsetTop);
+  //console.log("jumping to " + y);
+  window.scrollTo({top: y, behavior: 'smooth'});
+}
+
+window.onscroll = function() {
+    highlightTab();
+};
+
+/*
+* Highlights current tab on nav bar
+*/
+function highlightTab() {
+    if (window.pageYOffset < document.getElementById("project").offsetTop - document.getElementById("header").offsetHeight) {
+        document.getElementById("about-btn").classList.add("curr-selection");
+        document.getElementById("project-btn").classList.remove("curr-selection");
+    } else {
+        document.getElementById("about-btn").classList.remove("curr-selection");
+        document.getElementById("project-btn").classList.add("curr-selection");
+    }
 }

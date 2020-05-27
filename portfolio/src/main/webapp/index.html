@@ -11,14 +11,14 @@
     <!-- TODO: sticky header --> 
 
     
-    <header>
+    <header id="header">
       <h1 class="title">Steph Walsh</h1> 
-      <button class="nav-buttons" onclick="scrollToID('top')">About</button>
-      <button class="nav-buttons" onclick="scrollToID('project')">Projects</button>
+      <button class="nav-buttons curr-selection" id="about-btn" onclick="scrollToID('about')">About</button>
+      <button class="nav-buttons" id="project-btn" onclick="scrollToID('project')">Projects</button>
     </header>
 
     <main>
-    <div class="wrapper" id="top">    
+    <div class="wrapper">    
       <div class="profile-pic"> 
         <img id="headshot" src="/images/profile.jpg" alt="Profile Picture"> 
       </div> 
@@ -33,7 +33,7 @@
       </div>
     </div>
     
-    <div class="about">
+    <div class="about" id="about">
       <h1 class="about-text">About</h1> 
       <p class="about-text">
           I'm a rising junior at the University of Pennsylvania studying computer science. 

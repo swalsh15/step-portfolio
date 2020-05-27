@@ -31,8 +31,11 @@ header {
   display: flex;
   justify-content: flex-end;
   padding: 0 2%;
+  position: fixed;
   width: 96%;
 }
+
+
 
 .nav-buttons {
     background-color: #757272;
@@ -40,6 +43,10 @@ header {
     color: aliceblue;
     font-size: 1em; 
     padding: 0 4%;
+}
+
+.curr-selection {
+    background-color: #5f5c5c;
 }
 
 .title {
@@ -57,5 +64,5 @@ header {
 main {
     margin: auto; 
     max-width: 800px;
-    padding-top: 4%;
+    padding-top: 10%;
 }
