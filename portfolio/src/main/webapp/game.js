@@ -1,18 +1,19 @@
 var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
-var xPos = canvas.width / 2;
-var yPos = canvas.height / 2; 
 
-/* 2D array that stores current board state
-* 0 = empty, 1 = red, 2 = black
-*/
-var board = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0]
-];
+// is there some way to make this private?
+var board;
 
-function drawBall() {
+function init() {
+  board = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  drawGrid(); 
+}
+
+function drawBall(xPos, yPos) {
   ctx.beginPath();
   ctx.arc(xPos, yPos, canvas.height / 8, 0, Math.PI*2, false);
   ctx.fillStyle = "red";
@@ -44,10 +45,10 @@ function drawGrid() {
   ctx.stroke();
 }
 
-function updateFrame() {
+function updateFrame(xPos, yPos) {
     // clear old frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
+    drawBall(xPos, yPos);
     drawGrid();
 }
 
@@ -57,9 +58,9 @@ function updateFrame() {
 */
 canvas.addEventListener('mousedown', e => {
   var rect = canvas.getBoundingClientRect();
-  xPos = (e.clientX - rect.left) * (canvas.width / rect.width);
-  yPos = (e.clientY - rect.top) * (canvas.height / rect.height);
+  var xPos = (e.clientX - rect.left) * (canvas.width / rect.width);
+  var yPos = (e.clientY - rect.top) * (canvas.height / rect.height);
+  updateFrame(xPos, yPos);
 });
 
-// update frame every 10 ms
-setInterval(updateFrame, 10);
+init();
