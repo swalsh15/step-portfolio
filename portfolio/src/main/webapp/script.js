@@ -12,17 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+/*
+* Scrolls to top of element with id "top"- top of page. Adjusts scroll position to account for
+* height for header/navigation bar
+*/
+function scrollToID(id) {
+  var y = document.getElementById(id).offsetTop - document.getElementById("header").offsetHeight;
+  //console.log("height of header " + document.getElementById("header").offsetHeight);
+  console.log("top of elm " + document.getElementById(id).offsetTop);
+  //console.log("jumping to " + y);
+  window.scrollTo({top: y, behavior: 'smooth'});
+}
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+window.onscroll = function() {
+    highlightTab();
+};
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+/*
+* Highlights current tab on nav bar
+*/
+function highlightTab() {
+    if (window.pageYOffset < document.getElementById("project").offsetTop - document.getElementById("header").offsetHeight) {
+        document.getElementById("about-btn").classList.add("curr-selection");
+        document.getElementById("project-btn").classList.remove("curr-selection");
+    } else {
+        document.getElementById("about-btn").classList.remove("curr-selection");
+        document.getElementById("project-btn").classList.add("curr-selection");
+    }
 }

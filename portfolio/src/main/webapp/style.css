@@ -25,22 +25,44 @@ html, body {
   max-height: 350px;
 }
 
-.header {
+header {
   background: #757272;
   color: aliceblue;
-  text-align: left;
-  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 2%;
+  position: fixed;
+  width: 96%;
+}
+
+
+
+.nav-buttons {
+    background-color: #757272;
+    border: none;
+    color: aliceblue;
+    font-size: 1em; 
+    padding: 0 4%;
+}
+
+.curr-selection {
+    background-color: #5f5c5c;
+}
+
+.title {
+    margin-right: auto; 
 }
 
 .social-link {
   padding: 5%;
 }
 
-#about-text {
+.about-text {
   padding: 10px;
 }
 
 main {
     margin: auto; 
-    max-width: 800px; 
+    max-width: 800px;
+    padding-top: 10%;
 }
