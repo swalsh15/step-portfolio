@@ -1,7 +1,7 @@
 html, body {
   height: 100%; 
   margin: 0px;
-  font-family: sans-serif;
+  font-family: lato;
 }
 
 .wrapper {  
@@ -53,8 +53,20 @@ header {
     margin-right: auto; 
 }
 
+.social {
+    margin-top: 5%;
+}
+
 .social-link {
-  padding: 5%;
+  background-color: #757272;
+  margin: 0 3%;
+  padding: 3% 2%;
+  color: aliceblue;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background-color: #5f5c5c;
 }
 
 .about-text {
@@ -62,12 +74,16 @@ header {
 }
 
 main {
-    margin: auto; 
-    max-width: 800px;
-    padding-top: 10%;
+  margin: auto; 
+  max-width: 800px;
+  padding-top: 10%;
 }
 
 .canvas {
-    background: grey;
-    width: 100%;
+  background: grey;
+  width: 100%;
+}
+
+.divider {
+  border-top: 3px dashed #bbb;
 }
