@@ -44,3 +44,12 @@ function getDataFromServlet() {
     document.getElementById('data-container').innerText = quote;
   });
 }
+
+function getJson() {
+    (fetch('/data').then(response => response.json()).then((list) => {
+        console.log(list);
+        for (let i = 0; i < list.length; i++) {
+            document.getElementById("data-container").innerText += list[i] + "\n";
+        }
+    }));
+}
