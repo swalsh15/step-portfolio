@@ -1,5 +1,5 @@
-let canvas = document.getElementById("game");
-let ctx = canvas.getContext("2d");
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
 class Board {
   constructor() {
@@ -140,6 +140,79 @@ class Board {
     }  
   }
 
+  /* 
+  * Checks if there is a win from rows
+  */
+  checkRowWin(player) {
+    for (let i = 0; i < this.board.length; i++) {
+      let rowWin = true;
+      for (let j = 0; j < this.board[i].length; j++) {
+        if (this.board[i][j] !== player) {
+          rowWin = false;
+          break;
+        }
+      }
+      if (rowWin) {
+        return true;
+      }
+    } 
+    return false; 
+  }
+
+  /* 
+  * Checks if there is a win from col
+  */
+  checkColWin(player) {
+    // check cols 
+    for (let j = 0; j < this.board[0].length; j++) {
+      let colWin = true;
+      for (let i = 0; i < this.board.length; i++) {
+        if (this.board[i][j] !== player) {
+          colWin = false;
+          break;
+        }   
+      }
+      if (colWin) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /* 
+  * Checks if there is a win from down diaganol
+  */
+  checkDiagDownWin(player) {
+    for (let i = 0; i < this.board.length; i++) {
+        if (this.board[i].length !== this.board.length) {
+            console.log("Error board not square");
+            return false;
+        }
+        if (this.board[i][i] !== player) {
+            return false;
+        }
+    }
+    return true; 
+  }
+
+  /* 
+  * Checks if there is a win from up diaganol
+  */
+  checkDiagUpWin(player) {
+    let j = 0;
+    for (let i = this.board.length - 1; i > -1; i--) {
+        if (this.board[i].length !== this.board.length) {
+            console.log("Error board not square");
+            return false;
+        }
+        if (this.board[i][j] !== player) {
+            return false;
+        }
+        j++;
+    }
+    return true;
+  }
+
   /*
   * Checks whether move made by redTrue player resulted in win or if game board is full.
   * Sends alert with win message or gameOver message if board is full and allows user to
@@ -152,87 +225,11 @@ class Board {
     } else {
         player = 2;
     }
-    let win = false; 
 
-    // check rows
-    for (let i = 0; i < this.board.length; i++) {
-      let rowWin = true;
-      for (let j = 0; j < this.board[i].length; j++) {
-        if (this.board[i][j] !== player) {
-          rowWin = false;
-          break;
-        }
-      }
-      if (rowWin) {
-        win = true;
-        break;
-      }
-    }
-
-    // show message and break if win condition satisfied 
-    if (win) {
+    // check for win and display win message if true 
+    if (this.checkRowWin(player) || this.checkColWin(player) || this.checkDiagDownWin(player) || this.checkDiagUpWin(player)) {
       this.showWinMessage();
-      return;
     }
-
-    // check cols 
-    for (let j = 0; j < this.board[0].length; j++) {
-      let colWin = true;
-      for (let i = 0; i < this.board.length; i++) {
-        if (this.board[i][j] !== player) {
-          colWin = false;
-          break;
-        }   
-      }
-      if (colWin) {
-        win = true;
-        break;
-      }
-    }
-
-    // show message and break if win condition satisfied 
-    if (win) {
-      this.showWinMessage();
-      return;
-    }
-
-    // check diaganol
-    win = true;
-    for (let i = 0; i < this.board.length; i++) {
-        if (this.board[i].length !== this.board.length) {
-            console.log("Error board not square");
-            break;
-        }
-        if (this.board[i][i] !== player) {
-            win = false; 
-            break;
-        }
-    }
-
-    // show message and break if win condition satisfied 
-    if (win) {
-      this.showWinMessage();
-      return;
-    }
-
-    win = true;
-    let j = 0;
-    for (let i = this.board.length - 1; i > -1; i--) {
-        if (this.board[i].length !== this.board.length) {
-            console.log("Error board not square");
-            break;
-        }
-        if (this.board[i][j] !== player) {
-            win = false; 
-            break;
-        }
-        j++;
-    }
-    if (win) {
-      this.showWinMessage();
-      return;
-    }
-
   }
 
 
@@ -246,7 +243,6 @@ class Board {
         }
     }
   }
-
 
   /* 
   * Iterates through game board and draws checker if element is not 0.
@@ -287,15 +283,15 @@ class Board {
 }
 
 // create board object for game
-let gameBoard = new Board();
+const gameBoard = new Board();
 
 /*
 * Updates the x and y vars to reflect curr mouse position on the canvas
 */
 canvas.addEventListener('mousedown', e => {
-  let rect = canvas.getBoundingClientRect();
-  let xPos = (e.clientX - rect.left) * (canvas.width / rect.width);
-  let yPos = (e.clientY - rect.top) * (canvas.height / rect.height);
+  const rect = canvas.getBoundingClientRect();
+  const xPos = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const yPos = (e.clientY - rect.top) * (canvas.height / rect.height);
   gameBoard.updateFrame(xPos, yPos);
 });
 
