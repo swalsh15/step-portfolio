@@ -49,7 +49,15 @@
     <div class="project">
       <h1 id="project">Servlet Tests</h1>
       <div class="divider"></div>
-      <button onclick="getJson()">Fetch</button>
+      <button onclick="getJson()">Fetch Comments</button>
+
+      <form action="/data" method="POST">
+        <p>Enter a comment below</p>
+        <textarea name="text-input"></textarea>
+        <br>
+        <input type="submit"/>
+      </form>
+
       <div id="data-container"> </div>
     </div>
 
