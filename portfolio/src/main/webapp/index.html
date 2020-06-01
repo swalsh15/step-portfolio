@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <title>Steph Walsh</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <script src="script.js"></script>
   </head>
   <body>
 
-    <!-- TODO: sticky header --> 
-
-    
     <header id="header">
       <h1 class="title">Steph Walsh</h1> 
       <button class="nav-buttons curr-selection" id="about-btn" onclick="scrollToID('about')">About</button>
@@ -20,13 +18,13 @@
     <main>
     <div class="wrapper">    
       <div class="profile-pic"> 
-        <img id="headshot" src="/images/profile.jpg" alt="Profile Picture"> 
+        <img id="headshot" src="./images/profile.jpg" alt="Profile Picture"> 
       </div> 
       <div class="summary"> 
         <h1>Stephanie Walsh</h1>
-        <h2>I'm currently a STEP intern at Google.</h2> 
+        <h2>Google STEP Intern</h2> 
         <div class="social">
-          <a href="/images/resume.pdf" class="social-link">Resume</a>
+          <a href="./images/resume.pdf" class="social-link">Resume</a>
           <a href="https://github.com/swalsh15" class="social-link">Github</a>
           <a href="https://www.linkedin.com/in/stephanie-walsh-27555a169/" class="social-link">LinkedIn</a>
         </div>                      
@@ -35,6 +33,7 @@
     
     <div class="about" id="about">
       <h1 class="about-text">About</h1> 
+      <div class="divider"></div>
       <p class="about-text">
           I'm a rising junior at the University of Pennsylvania studying computer science. 
           I'm currently working as a STEP intern for Google. This year the internship 
@@ -49,26 +48,28 @@
 
     <div class="project"> 
       <h1 id="project">Projects</h1>
+      <div class="divider"></div>
+      <h3 class="project-title">Tic Tac Toe</h3>
+      <p>
+        Below is a simple 2-player Tic Tac Toe widget built in JavaScript. Click a tile in the board to place a black tile there. Then let the second player click a tile to place a red tile on the board. 
+        Continue until a player has won or the board is full.     
+      </p>
       <canvas id="game" class="canvas"></canvas>
       <script src="game.js"></script>
-      <p>
-        You'll be sending the code you write to your host for review, so your host needs access to your repo. To give your host access to your repo, add them as a collaborator. Navigate to your repo's page in GitHub. Go to the Settings tab. Select Collaborators. (Note: If you don't see this, look for Manage Access -> Invite a Collaborator instead) Add your host using their GitHub username or email address (you can send them a quick message to confirm their Github username). Your host can now help with code reviews. Require Pull Requests When you write code, you're going to use pull requests to do code reviews. To prevent accidentally modifying the code without going through a code review, set your repo to require pull requests. Go to your GitHub repo page. Click the Settings tab. Select Branches. Click the Add rule button. Type master into the Branch name pattern text box. Select Require pull request reviews before merging and Include administrators. Click Create. Click Save changes. Tell git Who You Are Before you can do anything else with git, you need to tell it who you are, so it knows who to attribute commits to. First set your email (make sure to use the same email as your GitHub account, and not your @google.com one): git config --global user.email "you@example.com" and then your name: git config --global user.name "Your Name" Modify README 
+      
+      <h3 class="project-title">Wikispeedia Shortest Path Solver</h3>
+      <p> 
+          A version of the WikiSpeedia game - a game where you navigate between two Wikipedia pages using hyperlinks. This is an implementation using Java Swing for a NETS150 group project. We implemented the game and interface
+          as well as using the BFS shortest path algorithm to reveal the quickest path between your current page and the target page.
       </p>
-      <p>
-        You'll be sending the code you write to your host for review, so your host needs access to your repo. To give your host access to your repo, add them as a collaborator. Navigate to your repo's page in GitHub. Go to the Settings tab. Select Collaborators. (Note: If you don't see this, look for Manage Access -> Invite a Collaborator instead) Add your host using their GitHub username or email address (you can send them a quick message to confirm their Github username). Your host can now help with code reviews. Require Pull Requests When you write code, you're going to use pull requests to do code reviews. To prevent accidentally modifying the code without going through a code review, set your repo to require pull requests. Go to your GitHub repo page. Click the Settings tab. Select Branches. Click the Add rule button. Type master into the Branch name pattern text box. Select Require pull request reviews before merging and Include administrators. Click Create. Click Save changes. Tell git Who You Are Before you can do anything else with git, you need to tell it who you are, so it knows who to attribute commits to. First set your email (make sure to use the same email as your GitHub account, and not your @google.com one): git config --global user.email "you@example.com" and then your name: git config --global user.name "Your Name" Modify README 
+      <img src="./images/wikispeedia.png" alt="Wikispeedia GUI" style="width: 100%">
+
+      <h3 class="project-title">2048</h3>
+      <p> 
+        An implementation of the mobile app 2048 using Java and the PennDraw library. This was a final project for CIS110.
       </p>
-      <p>
-        You'll be sending the code you write to your host for review, so your host needs access to your repo. To give your host access to your repo, add them as a collaborator. Navigate to your repo's page in GitHub. Go to the Settings tab. Select Collaborators. (Note: If you don't see this, look for Manage Access -> Invite a Collaborator instead) Add your host using their GitHub username or email address (you can send them a quick message to confirm their Github username). Your host can now help with code reviews. Require Pull Requests When you write code, you're going to use pull requests to do code reviews. To prevent accidentally modifying the code without going through a code review, set your repo to require pull requests. Go to your GitHub repo page. Click the Settings tab. Select Branches. Click the Add rule button. Type master into the Branch name pattern text box. Select Require pull request reviews before merging and Include administrators. Click Create. Click Save changes. Tell git Who You Are Before you can do anything else with git, you need to tell it who you are, so it knows who to attribute commits to. First set your email (make sure to use the same email as your GitHub account, and not your @google.com one): git config --global user.email "you@example.com" and then your name: git config --global user.name "Your Name" Modify README 
-      </p>
-      <p>
-        You'll be sending the code you write to your host for review, so your host needs access to your repo. To give your host access to your repo, add them as a collaborator. Navigate to your repo's page in GitHub. Go to the Settings tab. Select Collaborators. (Note: If you don't see this, look for Manage Access -> Invite a Collaborator instead) Add your host using their GitHub username or email address (you can send them a quick message to confirm their Github username). Your host can now help with code reviews. Require Pull Requests When you write code, you're going to use pull requests to do code reviews. To prevent accidentally modifying the code without going through a code review, set your repo to require pull requests. Go to your GitHub repo page. Click the Settings tab. Select Branches. Click the Add rule button. Type master into the Branch name pattern text box. Select Require pull request reviews before merging and Include administrators. Click Create. Click Save changes. Tell git Who You Are Before you can do anything else with git, you need to tell it who you are, so it knows who to attribute commits to. First set your email (make sure to use the same email as your GitHub account, and not your @google.com one): git config --global user.email "you@example.com" and then your name: git config --global user.name "Your Name" Modify README 
-      </p>
-      <p>
-        You'll be sending the code you write to your host for review, so your host needs access to your repo. To give your host access to your repo, add them as a collaborator. Navigate to your repo's page in GitHub. Go to the Settings tab. Select Collaborators. (Note: If you don't see this, look for Manage Access -> Invite a Collaborator instead) Add your host using their GitHub username or email address (you can send them a quick message to confirm their Github username). Your host can now help with code reviews. Require Pull Requests When you write code, you're going to use pull requests to do code reviews. To prevent accidentally modifying the code without going through a code review, set your repo to require pull requests. Go to your GitHub repo page. Click the Settings tab. Select Branches. Click the Add rule button. Type master into the Branch name pattern text box. Select Require pull request reviews before merging and Include administrators. Click Create. Click Save changes. Tell git Who You Are Before you can do anything else with git, you need to tell it who you are, so it knows who to attribute commits to. First set your email (make sure to use the same email as your GitHub account, and not your @google.com one): git config --global user.email "you@example.com" and then your name: git config --global user.name "Your Name" Modify README 
-      </p>
-      <p>
-        You'll be sending the code you write to your host for review, so your host needs access to your repo. To give your host access to your repo, add them as a collaborator. Navigate to your repo's page in GitHub. Go to the Settings tab. Select Collaborators. (Note: If you don't see this, look for Manage Access -> Invite a Collaborator instead) Add your host using their GitHub username or email address (you can send them a quick message to confirm their Github username). Your host can now help with code reviews. Require Pull Requests When you write code, you're going to use pull requests to do code reviews. To prevent accidentally modifying the code without going through a code review, set your repo to require pull requests. Go to your GitHub repo page. Click the Settings tab. Select Branches. Click the Add rule button. Type master into the Branch name pattern text box. Select Require pull request reviews before merging and Include administrators. Click Create. Click Save changes. Tell git Who You Are Before you can do anything else with git, you need to tell it who you are, so it knows who to attribute commits to. First set your email (make sure to use the same email as your GitHub account, and not your @google.com one): git config --global user.email "you@example.com" and then your name: git config --global user.name "Your Name" Modify README 
-      </p>
+      <img src="./images/2048.png" alt="2048 GUI" style="width: 100%">
+
     </div>
 
     </main>
