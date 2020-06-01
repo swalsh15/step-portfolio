@@ -18,25 +18,29 @@
 */
 function scrollToID(id) {
   var y = document.getElementById(id).offsetTop - document.getElementById("header").offsetHeight;
-  //console.log("height of header " + document.getElementById("header").offsetHeight);
   console.log("top of elm " + document.getElementById(id).offsetTop);
-  //console.log("jumping to " + y);
   window.scrollTo({top: y, behavior: 'smooth'});
 }
 
 window.onscroll = function() {
-    highlightTab();
+  highlightTab();
 };
 
 /*
 * Highlights current tab on nav bar
 */
 function highlightTab() {
-    if (window.pageYOffset < document.getElementById("project").offsetTop - document.getElementById("header").offsetHeight) {
-        document.getElementById("about-btn").classList.add("curr-selection");
-        document.getElementById("project-btn").classList.remove("curr-selection");
-    } else {
-        document.getElementById("about-btn").classList.remove("curr-selection");
-        document.getElementById("project-btn").classList.add("curr-selection");
-    }
+  if (window.pageYOffset < document.getElementById("project").offsetTop - document.getElementById("header").offsetHeight) {
+    document.getElementById("about-btn").classList.add("curr-selection");
+    document.getElementById("project-btn").classList.remove("curr-selection");
+  } else {
+    document.getElementById("about-btn").classList.remove("curr-selection");
+    document.getElementById("project-btn").classList.add("curr-selection");
+  }
+}
+
+function getDataFromServlet() {
+  fetch('/data').then(response => response.text()).then((quote) => {
+    document.getElementById('data-container').innerText = quote;
+  });
 }
