@@ -1,16 +1,9 @@
-var canvas = document.getElementById("game");
-var ctx = canvas.getContext("2d");
+let canvas = document.getElementById("game");
+let ctx = canvas.getContext("2d");
 
 class Board {
   constructor() {
-    this.board = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0]
-    ];
-    this.drawGrid();
-    this.red = true; 
-    this.numTiles = 0;
+    this.init();
   }
 
   /* 
@@ -22,10 +15,17 @@ class Board {
       [0, 0, 0],
       [0, 0, 0]
     ];
+    this.clearBoard();
+    this.drawGrid();
+  }
+
+  /* 
+  * Clears board
+  */
+  clearBoard() {
     this.red = true; 
     this.numTiles = 0;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.drawGrid();
   }
 
   /* 
@@ -81,7 +81,7 @@ class Board {
     this.updateGameArray(xPos, yPos);
     this.drawGrid();
     this.drawBoard();
-    this.gameOver(); 
+    this.checkBoardFull(); 
   }
 
   /*
@@ -89,8 +89,8 @@ class Board {
   * 2 depending on color - 1 = red 2 = black
   */
   updateGameArray(xPos, yPos) {
-    var col = 0;
-    var row = 0; 
+    let col = 0;
+    let row = 0; 
 
     // finds col clicked
     if (xPos < canvas.width / 3) {
@@ -118,7 +118,7 @@ class Board {
         this.board[row][col] = 2;
       }
       this.numTiles++;
-      this.checkGameState(this.redTrue);
+      this.checkGameState();
       this.redTrue = !this.redTrue;
     } else {
         alert("Cannot place tile there. Try again.");
@@ -126,25 +126,41 @@ class Board {
   }
   
   /*
+  * Shows win message
+  */ 
+  showWinMessage() {
+    if (this.redTrue) {
+      if (confirm("Win for red! Play again?")) {
+            this.init();
+      }
+    } else {
+      if (confirm("Win for black! Play again?")) {
+            this.init();
+      }
+    }  
+  }
+
+  /*
   * Checks whether move made by redTrue player resulted in win or if game board is full.
   * Sends alert with win message or gameOver message if board is full and allows user to
   * restart game.  
   */
-  checkGameState(redTrue) {
-    var player = 0;
-    if (redTrue) {
+  checkGameState() {
+    let player = 0;
+    if (this.redTrue) {
       player = 1; 
     } else {
         player = 2;
     }
-    var win = false; 
+    let win = false; 
 
     // check rows
-    for (var i = 0; i < this.board.length; i++) {
-      var rowWin = true;
-      for (var j = 0; j < this.board[i].length; j++) {
-        if (this.board[i][j] != player) {
+    for (let i = 0; i < this.board.length; i++) {
+      let rowWin = true;
+      for (let j = 0; j < this.board[i].length; j++) {
+        if (this.board[i][j] !== player) {
           rowWin = false;
+          break;
         }
       }
       if (rowWin) {
@@ -153,12 +169,19 @@ class Board {
       }
     }
 
+    // show message and break if win condition satisfied 
+    if (win) {
+      this.showWinMessage();
+      return;
+    }
+
     // check cols 
-    for (var j = 0; j < this.board[0].length; j++) {
-      var colWin = true;
-      for (var i = 0; i < this.board.length; i++) {
-        if (this.board[i][j] != player) {
+    for (let j = 0; j < this.board[0].length; j++) {
+      let colWin = true;
+      for (let i = 0; i < this.board.length; i++) {
+        if (this.board[i][j] !== player) {
           colWin = false;
+          break;
         }   
       }
       if (colWin) {
@@ -167,48 +190,56 @@ class Board {
       }
     }
 
+    // show message and break if win condition satisfied 
+    if (win) {
+      this.showWinMessage();
+      return;
+    }
+
     // check diaganol
-    var winDiagUp = true;
-    for (var i = 0; i < this.board.length; i++) {
-        if (this.board[i].length != this.board.length) {
+    win = true;
+    for (let i = 0; i < this.board.length; i++) {
+        if (this.board[i].length !== this.board.length) {
             console.log("Error board not square");
             break;
         }
-        if (this.board[i][i] != player) {
-            winDiagUp = false; 
+        if (this.board[i][i] !== player) {
+            win = false; 
+            break;
         }
     }
-    var winDiagDown = true;
-    var j = 0;
-    for (var i = this.board.length - 1; i > -1; i--) {
-        if (this.board[i].length != this.board.length) {
+
+    // show message and break if win condition satisfied 
+    if (win) {
+      this.showWinMessage();
+      return;
+    }
+
+    win = true;
+    let j = 0;
+    for (let i = this.board.length - 1; i > -1; i--) {
+        if (this.board[i].length !== this.board.length) {
             console.log("Error board not square");
             break;
         }
-        if (this.board[i][j] != player) {
-            winDiagDown = false; 
+        if (this.board[i][j] !== player) {
+            win = false; 
+            break;
         }
         j++;
     }
-
-    // show win message
-    if (win || winDiagUp || winDiagDown) {
-      if (player == 1) {
-        if (confirm("Win for red! Play again?")) {
-            this.init();
-        }
-      } else {
-        if (confirm("Win for black! Play again?")) {
-            this.init();
-        }
-      }
+    if (win) {
+      this.showWinMessage();
+      return;
     }
+
   }
+
 
   /*
   * Checks if game board is full and sents gameOver message
   */
-  gameOver() {
+  checkBoardFull() {
     if (this.numTiles == this.board.length * this.board[0].length) {
         if (confirm("Game over! Play again?")) {
             this.init();
@@ -223,11 +254,11 @@ class Board {
   * or height of the canvas
   */ 
   drawBoard() {
-    for (var i = 0; i < this.board.length; i++) {
-      for (var j = 0; j < this.board[i].length; j++) {
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
         if (this.board[i][j] != 0) { 
-          var xMultiplier = 0;
-          var yMultiplier = 0;
+          let xMultiplier = 0;
+          let yMultiplier = 0;
           if (i == 0) {
             xMultiplier = 1;
           } else if (i == 1) {
@@ -256,15 +287,15 @@ class Board {
 }
 
 // create board object for game
-var gameBoard = new Board();
+let gameBoard = new Board();
 
 /*
 * Updates the x and y vars to reflect curr mouse position on the canvas
 */
 canvas.addEventListener('mousedown', e => {
-  var rect = canvas.getBoundingClientRect();
-  var xPos = (e.clientX - rect.left) * (canvas.width / rect.width);
-  var yPos = (e.clientY - rect.top) * (canvas.height / rect.height);
+  let rect = canvas.getBoundingClientRect();
+  let xPos = (e.clientX - rect.left) * (canvas.width / rect.width);
+  let yPos = (e.clientY - rect.top) * (canvas.height / rect.height);
   gameBoard.updateFrame(xPos, yPos);
 });
 
