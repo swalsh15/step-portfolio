@@ -42,10 +42,25 @@ function highlightTab() {
 function fetchComments() {
   (fetch('/comments').then(response => response.json()).then((comments) => {
     for (const comment of comments) {
+      console.log(comment);
       let div = document.createElement("div");
-      div.textContent = comment;
       div.setAttribute("class", "comment");
+      
+      let user = document.createElement("div");
+      user.setAttribute("class", "user");
+      user.textContent = comment.user + " said:";
+
+      let message = document.createElement("div");
+      message.setAttribute("class", "message");
+      message.textContent = comment.message;
+
+      div.appendChild(user);
+      div.appendChild(message);
       document.getElementById("data-container").appendChild(div);
     }
   }));
 }
+
+window.onload = (event) => {
+  fetchComments();
+};
