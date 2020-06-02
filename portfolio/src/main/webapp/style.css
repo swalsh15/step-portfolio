@@ -92,3 +92,13 @@ main {
   box-shadow: 10px 10px 5px #aaaaaa;
   padding: 2% 3%;
 }
+
+.user {
+  border-bottom: dashed;
+  border-width: 2px;
+  padding: 2% 0%;
+}
+
+.message {
+  padding: 2%;
+}
