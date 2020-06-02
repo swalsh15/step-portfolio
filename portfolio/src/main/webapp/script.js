@@ -39,17 +39,13 @@ function highlightTab() {
   }
 }
 
-function getDataFromServlet() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('data-container').innerText = quote;
-  });
-}
-
-function getJson() {
-    (fetch('/data').then(response => response.json()).then((list) => {
-        console.log(list);
-        for (let i = 0; i < list.length; i++) {
-            document.getElementById("data-container").innerText += list[i] + "\n";
-        }
-    }));
+function fetchComments() {
+  (fetch('/comments').then(response => response.json()).then((comments) => {
+    for (const comment of comments) {
+      let div = document.createElement("div");
+      div.textContent = comment;
+      div.setAttribute("class", "comment");
+      document.getElementById("data-container").appendChild(div);
+    }
+  }));
 }
