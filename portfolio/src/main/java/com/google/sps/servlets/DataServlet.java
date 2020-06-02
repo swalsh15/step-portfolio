@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -23,21 +26,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
+@WebServlet("/comments")
 public class DataServlet extends HttpServlet {
+  // comments data structure
+  ArrayList<String> comments = new ArrayList();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ArrayList<String> list = new ArrayList<>();
-    list.add("first message");
-    list.add("second message");
-    list.add("third message");
-
     Gson gson = new Gson();
-    String json = gson.toJson(list);
-
+    String json = gson.toJson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String comment = request.getParameter("text_input");
+    String name = request.getParameter("name_input");
+    if (comment == null || name == null) {
+      response.sendRedirect("/index.html");  
+    }
+
+    Entity commentEntity = new Entity("Comment"); 
+    commentEntity.setProperty("title", comment);
+    commentEntity.setProperty("description", name);   
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity); 
+    response.sendRedirect("/index.html");
+  }
 }
