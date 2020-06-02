@@ -49,7 +49,6 @@
     <div class="project">
       <h1 id="project">Comments</h1>
       <div class="divider"></div>
-
       <form action="/comments" method="POST">
         <p>Enter a comment below</p>
         <textarea name="text_input" placeholder="comment"></textarea>
@@ -58,7 +57,15 @@
         <input type="submit"/>
       </form>
       
-      <p>Past Comments</p>
+      <p>Max Comments Shown:</p>
+      <select id="numComments">
+        <option name="1"> 1 </option>
+        <option name="2"> 2 </option>
+        <option name="3"> 3 </option>
+        <option name="4"> 4 </option>
+      </select>
+      <button onClick="fetchComments()">Load</button>
+      
       <div id="data-container"> </div>
     </div>
 

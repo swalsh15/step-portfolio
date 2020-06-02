@@ -14,6 +14,7 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/comments")
@@ -45,14 +47,14 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment");
-    PreparedQuery results = datastore.prepare(query);
+    int numComents = Integer.parseInt(request.getParameter("numComments"));
+    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numComents));
     ArrayList<Comment> comments = new ArrayList();
 
-    for (Entity entity : results.asIterable()) {
-      String comment = (String) entity.getProperty("title");
-      String user = (String) entity.getProperty("description");
-      Comment c = new Comment(user, comment);
-      comments.add(c);
+    for (Entity entity : results) {
+      String comment = (String) entity.getProperty("message");
+      String user = (String) entity.getProperty("username");
+      comments.add(new Comment(user, comment));
     }
 
     Gson gson = new Gson();
@@ -66,12 +68,13 @@ public class DataServlet extends HttpServlet {
     String comment = request.getParameter("text_input");
     String name = request.getParameter("name_input");
     if (comment == null || name == null) {
-      response.sendRedirect("/index.html");  
+      response.sendRedirect("/index.html");
+      return;  
     }
 
     Entity commentEntity = new Entity("Comment"); 
-    commentEntity.setProperty("title", comment);
-    commentEntity.setProperty("description", name);   
+    commentEntity.setProperty("message", comment);
+    commentEntity.setProperty("username", name);   
 
     datastore.put(commentEntity); 
     response.sendRedirect("/index.html");
