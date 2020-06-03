@@ -71,4 +71,30 @@ function fetchComments() {
 
 window.onload = (event) => {
   fetchComments();
+  toggleCommentBox();
 };
+
+function onSignIn(googleUser) {
+  const profile = googleUser.getBasicProfile();
+  toggleCommentBox(); 
+}
+
+function signOut() {
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function() {
+    toggleCommentBox();
+  });
+}
+
+/*
+* Hides comment when not signed in and shows comments form when
+* signed in with your google account
+*/
+function toggleCommentBox() {
+  const auth2 = gapi.auth2.getAuthInstance();
+  if (auth2.isSignedIn.get()) {
+    document.getElementById("comment-form").style.display = "block";
+  } else {
+    document.getElementById("comment-form").style.display = "none";
+  }
+}
