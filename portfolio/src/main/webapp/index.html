@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <script src="script.js"></script>
+    <meta name="google-signin-client_id" content="813751014340-ht5ugfu1pqj5a4gqq7rbvjk0sffu00it.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
   <body>
 
@@ -49,7 +51,11 @@
     <div class="project">
       <h1 id="project">Comments</h1>
       <div class="divider"></div>
-      <form action="/comments" method="POST">
+
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <a href="#" onclick="signOut();">Sign out</a>
+
+      <form action="/comments" method="POST" id="comment-form">
         <p>Enter a comment below</p>
         <textarea name="text_input" placeholder="comment"></textarea>
         <textarea name="name_input" placeholder="name"></textarea>
