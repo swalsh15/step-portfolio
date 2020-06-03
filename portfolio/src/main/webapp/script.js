@@ -40,25 +40,33 @@ function highlightTab() {
 }
 
 function fetchComments() {
-  (fetch('/comments').then(response => response.json()).then((comments) => {
+  // get num of comments to query
+  const selectBar = document.getElementById("numComments");
+  const maxComments = selectBar.options[selectBar.selectedIndex].value;
+
+  fetch('/comments?numComments=' + maxComments).then(response => response.json()).then((comments) => {
+    // clear data-container
+    const container = document.getElementById("data-container")
+    container.innerHTML = '';
+
+    // fill data-container
     for (const comment of comments) {
-      console.log(comment);
-      let div = document.createElement("div");
+      const div = document.createElement("div");
       div.setAttribute("class", "comment");
       
-      let user = document.createElement("div");
+      const user = document.createElement("div");
       user.setAttribute("class", "user");
       user.textContent = comment.user + " said:";
 
-      let message = document.createElement("div");
+      const message = document.createElement("div");
       message.setAttribute("class", "message");
       message.textContent = comment.message;
 
       div.appendChild(user);
       div.appendChild(message);
-      document.getElementById("data-container").appendChild(div);
+      container.appendChild(div);
     }
-  }));
+  });
 }
 
 window.onload = (event) => {
