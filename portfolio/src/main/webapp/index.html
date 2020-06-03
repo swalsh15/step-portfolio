@@ -58,7 +58,22 @@
         <br>
         <input type="submit"/>
       </form>
+      
+      <p>Max Comments Shown:</p>
+      <select id="numComments">
+        <option name="1"> 1 </option>
+        <option name="2"> 2 </option>
+        <option name="3"> 3 </option>
+        <option name="4"> 4 </option>
+      </select>
+      <button onClick="fetchComments()">Load</button>
 
+
+      <form action="\delete-data" method="POST">
+        <p>Delete all comments</p>
+        <input type="submit"/>
+      </form>
+      
       <div id="data-container"> </div>
     </div>
 
