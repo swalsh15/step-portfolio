@@ -44,12 +44,10 @@ function fetchComments() {
   const selectBar = document.getElementById("numComments");
   const maxComments = selectBar.options[selectBar.selectedIndex].value;
 
-  (fetch('/comments?numComments=' + maxComments).then(response => response.json()).then((comments) => {
+  fetch('/comments?numComments=' + maxComments).then(response => response.json()).then((comments) => {
     // clear data-container
     const container = document.getElementById("data-container")
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
+    container.innerHTML = '';
 
     // fill data-container
     for (const comment of comments) {
@@ -68,7 +66,7 @@ function fetchComments() {
       div.appendChild(message);
       container.appendChild(div);
     }
-  }));
+  });
 }
 
 window.onload = (event) => {
