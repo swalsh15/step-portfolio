@@ -28,6 +28,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/comments")
@@ -57,7 +64,7 @@ public class DataServlet extends HttpServlet {
 
     for (Entity entity : results) {
       String comment = (String) entity.getProperty("message");
-      String user = (String) entity.getProperty("username");
+      String user = (String) entity.getProperty("name");
       comments.add(new Comment(user, comment));
     }
 
@@ -69,16 +76,30 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String comment = request.getParameter("text_input");
-    String name = request.getParameter("name_input");
-    if (comment == null || name == null) {
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+      .setAudience(Collections.singletonList("813751014340-ht5ugfu1pqj5a4gqq7rbvjk0sffu00it.apps.googleusercontent.com")).build();
+    GoogleIdToken idToken = null;     
+    String key = request.getParameter("idtoken");
+    
+    try {
+      idToken = verifier.verify(key);
+    } catch (Exception e) {
+      return;
+    }
+    Payload payload = idToken.getPayload();
+    String name = (String) payload.get("name");
+    String pictureURL = (String) payload.get("picture");
+    String comment = request.getParameter("comment");
+
+    if (comment == null) {
       response.sendRedirect("/index.html");
       return;  
     }
 
     Entity commentEntity = new Entity("Comment"); 
     commentEntity.setProperty("message", comment);
-    commentEntity.setProperty("username", name);   
+    commentEntity.setProperty("name", name);   
+    commentEntity.setProperty("picture", pictureURL);
 
     datastore.put(commentEntity); 
     response.sendRedirect("/index.html");

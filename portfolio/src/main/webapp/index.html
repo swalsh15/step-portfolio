@@ -53,12 +53,11 @@
       <div class="divider"></div>
 
       <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      <a href="#" onclick="signOut();">Sign out</a>
+      <a href="#" onclick="signOut()">Sign out</a>
 
-      <form action="/comments" method="POST" id="comment-form">
+      <form onsubmit="commentPostRequest()" id="comment-form">
         <p>Enter a comment below</p>
-        <textarea name="text_input" placeholder="comment"></textarea>
-        <textarea name="name_input" placeholder="name"></textarea>
+        <textarea id="text_input" placeholder="comment"></textarea>
         <br>
         <input type="submit"/>
       </form>

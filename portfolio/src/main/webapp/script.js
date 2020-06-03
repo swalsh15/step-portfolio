@@ -71,18 +71,17 @@ function fetchComments() {
 
 window.onload = (event) => {
   fetchComments();
-  toggleCommentBox();
+  changeCommentFormDisplay
 };
 
 function onSignIn(googleUser) {
-  const profile = googleUser.getBasicProfile();
-  toggleCommentBox(); 
+  changeCommentFormDisplay(); 
 }
 
 function signOut() {
   const auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function() {
-    toggleCommentBox();
+    changeCommentFormDisplay();
   });
 }
 
@@ -90,7 +89,7 @@ function signOut() {
 * Hides comment when not signed in and shows comments form when
 * signed in with your google account
 */
-function toggleCommentBox() {
+function changeCommentFormDisplay() {
   const auth2 = gapi.auth2.getAuthInstance();
   if (auth2.isSignedIn.get()) {
     document.getElementById("comment-form").style.display = "block";
@@ -98,3 +97,14 @@ function toggleCommentBox() {
     document.getElementById("comment-form").style.display = "none";
   }
 }
+
+function commentPostRequest() {
+  const id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+  const textbox = document.getElementById("text_input");
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/comments', true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.send("idtoken="+id_token + "&comment="+ textbox.value);
+  textbox.value = "";
+}
+  
