@@ -40,16 +40,20 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 @WebServlet("/comments")
 public class DataServlet extends HttpServlet {
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private PreparedQuery allEntries = datastore.prepare(new Query("Comment"));
+  private int postNumber = allEntries.countEntities(); 
 
   private final class Comment {
     private final String user;
     private final String message;
     private final String pictureURL;
+    private final Integer postNumber;
 
-    public Comment(String user, String message, String pictureURL) {
+    public Comment(String user, String message, String pictureURL, Integer postNumber) {
       this.user = user;
       this.message = message;
       this.pictureURL = pictureURL;
+      this.postNumber = postNumber;
     }
   }
 
@@ -68,7 +72,8 @@ public class DataServlet extends HttpServlet {
       String comment = (String) entity.getProperty("message");
       String user = (String) entity.getProperty("name");
       String pictureURL = (String) entity.getProperty("picture");
-      comments.add(new Comment(user, comment, pictureURL));
+      Integer postNumber = (int) (long) entity.getProperty("postNumber"); 
+      comments.add(new Comment(user, comment, pictureURL, postNumber));
     }
 
     Gson gson = new Gson();
@@ -105,6 +110,8 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("message", comment);
     commentEntity.setProperty("name", name);   
     commentEntity.setProperty("picture", pictureURL);
+    commentEntity.setProperty("postNumber", postNumber);
+    postNumber++;
 
     datastore.put(commentEntity); 
     response.sendRedirect("/index.html");

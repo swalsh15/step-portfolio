@@ -65,12 +65,17 @@ function fetchComments() {
       user.setAttribute("class", "user");
       user.append(document.createTextNode(comment.user));
 
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = "delete";
+      deleteBtn.addEventListener("click", function() {deleteComment(comment.postNumber)});
+
       const message = document.createElement("div");
       message.setAttribute("class", "message");
       message.append(document.createTextNode(comment.message));
 
       userInfo.append(picture);
       userInfo.appendChild(user);
+      userInfo.appendChild(deleteBtn);
       div.appendChild(userInfo);
       div.appendChild(message);
       container.appendChild(div);
@@ -122,6 +127,21 @@ function uploadComment() {
   }).then(function(response) {
     if (!response.ok) {
       // TODO: handle case when verification fails
+    }
+  })
+}
+
+function deleteComment(postNumber) {
+  console.log(postNumber);
+  fetch('/delete-comment', {
+    method: 'POST',
+    body: "postNumber=" + postNumber,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  }).then(function(response) {
+    if (!response.ok) {
+      // failure
     }
   })
 }
