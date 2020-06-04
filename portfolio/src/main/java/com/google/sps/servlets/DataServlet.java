@@ -44,10 +44,12 @@ public class DataServlet extends HttpServlet {
   private final class Comment {
     private final String user;
     private final String message;
+    private final String pictureURL;
 
-    public Comment(String user, String message) {
+    public Comment(String user, String message, String pictureURL) {
       this.user = user;
       this.message = message;
+      this.pictureURL = pictureURL;
     }
   }
 
@@ -65,7 +67,8 @@ public class DataServlet extends HttpServlet {
     for (Entity entity : results) {
       String comment = (String) entity.getProperty("message");
       String user = (String) entity.getProperty("name");
-      comments.add(new Comment(user, comment));
+      String pictureURL = (String) entity.getProperty("picture");
+      comments.add(new Comment(user, comment, pictureURL));
     }
 
     Gson gson = new Gson();
