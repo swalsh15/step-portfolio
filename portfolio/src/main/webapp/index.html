@@ -51,17 +51,24 @@
     <div class="project">
       <h1 id="project">Comments</h1>
       <div class="divider"></div>
-
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      <a href="#" onclick="signOut()">Sign out</a>
-
-      <form onsubmit="uploadComment()" id="comment-form">
-        <p>Enter a comment below</p>
-        <textarea id="text_input" placeholder="comment"></textarea>
-        <br>
-        <input type="submit"/>
-      </form>
       
+      <div id="log-in">
+        <p>Please log in to your google account to leave a comment</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+
+      <div id="logged-in">
+        <p id="logged-in-message"></p>
+        <button onclick="signOut()">Sign out</button>
+        <form onsubmit="uploadComment()" id="comment-form">
+          <p>Enter a comment below</p>
+          <textarea id="text_input" placeholder="comment"></textarea>
+          <br>
+          <input type="submit"/>
+        </form>
+      </div>
+      
+      <br>
       <p>Max Comments Shown:</p>
       <select id="numComments">
         <option name="1"> 1 </option>

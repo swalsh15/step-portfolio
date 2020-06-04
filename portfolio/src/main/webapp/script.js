@@ -54,15 +54,24 @@ function fetchComments() {
       const div = document.createElement("div");
       div.setAttribute("class", "comment");
       
+      const userInfo = document.createElement("div");
+      userInfo.setAttribute("class", "user-info");
+
+      const picture = document.createElement("img");
+      picture.setAttribute("class", "comment-picture");
+      picture.src = comment.pictureURL;
+
       const user = document.createElement("div");
       user.setAttribute("class", "user");
-      user.textContent = comment.user + " said:";
+      user.append(document.createTextNode(comment.user));
 
       const message = document.createElement("div");
       message.setAttribute("class", "message");
-      message.textContent = comment.message;
+      message.append(document.createTextNode(comment.message));
 
-      div.appendChild(user);
+      userInfo.append(picture);
+      userInfo.appendChild(user);
+      div.appendChild(userInfo);
       div.appendChild(message);
       container.appendChild(div);
     }
@@ -92,9 +101,11 @@ function signOut() {
 function changeCommentFormDisplay() {
   const auth2 = gapi.auth2.getAuthInstance();
   if (auth2.isSignedIn.get()) {
-    document.getElementById("comment-form").style.display = "block";
+    document.getElementById("log-in").style.display = "none";
+    document.getElementById("logged-in").style.display = "flex";
   } else {
-    document.getElementById("comment-form").style.display = "none";
+    document.getElementById("log-in").style.display = "flex";
+    document.getElementById("logged-in").style.display = "none";
   }
 }
 
