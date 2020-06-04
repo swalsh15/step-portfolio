@@ -63,11 +63,11 @@ function fetchComments() {
 
       const user = document.createElement("div");
       user.setAttribute("class", "user");
-      user.textContent = comment.user;
+      user.append(document.createTextNode(comment.user));
 
       const message = document.createElement("div");
       message.setAttribute("class", "message");
-      message.textContent = comment.message;
+      message.append(document.createTextNode(comment.message));
 
       userInfo.append(picture);
       userInfo.appendChild(user);
