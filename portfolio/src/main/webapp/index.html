@@ -55,7 +55,7 @@
       <div class="g-signin2" data-onsuccess="onSignIn"></div>
       <a href="#" onclick="signOut()">Sign out</a>
 
-      <form onsubmit="commentPostRequest()" id="comment-form">
+      <form onsubmit="uploadComment()" id="comment-form">
         <p>Enter a comment below</p>
         <textarea id="text_input" placeholder="comment"></textarea>
         <br>
@@ -65,9 +65,9 @@
       <p>Max Comments Shown:</p>
       <select id="numComments">
         <option name="1"> 1 </option>
-        <option name="2"> 2 </option>
-        <option name="3"> 3 </option>
-        <option name="4"> 4 </option>
+        <option name="5"> 5 </option>
+        <option name="10"> 10 </option>
+        <option name="20"> 20 </option>
       </select>
       <button onClick="fetchComments()">Load</button>
       

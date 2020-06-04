@@ -71,7 +71,7 @@ function fetchComments() {
 
 window.onload = (event) => {
   fetchComments();
-  changeCommentFormDisplay
+  changeCommentFormDisplay();
 };
 
 function onSignIn(googleUser) {
@@ -98,13 +98,19 @@ function changeCommentFormDisplay() {
   }
 }
 
-function commentPostRequest() {
+  
+function uploadComment() {
   const id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
   const textbox = document.getElementById("text_input");
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/comments', true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.send("idtoken="+id_token + "&comment="+ textbox.value);
-  textbox.value = "";
+  fetch('/comments', {
+    method: 'POST',
+    body: "idtoken="+id_token + "&comment="+ textbox.value,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  }).then(function(response) {
+    if (!response.ok) {
+      // TODO: handle case when verification fails
+    }
+  })
 }
-  

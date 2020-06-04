@@ -84,6 +84,8 @@ public class DataServlet extends HttpServlet {
     try {
       idToken = verifier.verify(key);
     } catch (Exception e) {
+      // exception thrown if verifier.verify does not succeed
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Verification Failed: " + e.getMessage());
       return;
     }
     Payload payload = idToken.getPayload();
