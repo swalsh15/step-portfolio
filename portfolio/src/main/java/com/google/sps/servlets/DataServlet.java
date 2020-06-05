@@ -35,25 +35,25 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Key;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/comments")
 public class DataServlet extends HttpServlet {
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private PreparedQuery allEntries = datastore.prepare(new Query("Comment"));
-  private int postNumber = allEntries.countEntities(); 
 
   private final class Comment {
     private final String user;
     private final String message;
     private final String pictureURL;
-    private final Integer postNumber;
+    private final String id;
 
-    public Comment(String user, String message, String pictureURL, Integer postNumber) {
+    public Comment(String user, String message, String pictureURL, String id) {
       this.user = user;
       this.message = message;
       this.pictureURL = pictureURL;
-      this.postNumber = postNumber;
+      this.id = id;
     }
   }
 
@@ -72,8 +72,8 @@ public class DataServlet extends HttpServlet {
       String comment = (String) entity.getProperty("message");
       String user = (String) entity.getProperty("name");
       String pictureURL = (String) entity.getProperty("picture");
-      Integer postNumber = (int) (long) entity.getProperty("postNumber"); 
-      comments.add(new Comment(user, comment, pictureURL, postNumber));
+      String id = KeyFactory.keyToString(entity.getKey());
+      comments.add(new Comment(user, comment, pictureURL, id));
     }
 
     Gson gson = new Gson();
@@ -105,13 +105,11 @@ public class DataServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;  
     }
-
+    
     Entity commentEntity = new Entity("Comment"); 
     commentEntity.setProperty("message", comment);
     commentEntity.setProperty("name", name);   
     commentEntity.setProperty("picture", pictureURL);
-    commentEntity.setProperty("postNumber", postNumber);
-    postNumber++;
 
     datastore.put(commentEntity); 
     response.sendRedirect("/index.html");

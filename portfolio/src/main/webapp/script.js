@@ -67,7 +67,7 @@ function fetchComments() {
 
       const deleteBtn = document.createElement("button");
       deleteBtn.innerHTML = "delete";
-      deleteBtn.addEventListener("click", function() {deleteComment(comment.postNumber)});
+      deleteBtn.addEventListener("click", function() {deleteComment(comment.id)});
 
       const message = document.createElement("div");
       message.setAttribute("class", "message");
@@ -131,11 +131,10 @@ function uploadComment() {
   })
 }
 
-function deleteComment(postNumber) {
-  console.log(postNumber);
+function deleteComment(id) {
   fetch('/delete-comment', {
     method: 'POST',
-    body: "postNumber=" + postNumber,
+    body: "id=" + id,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
