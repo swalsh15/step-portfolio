@@ -131,7 +131,7 @@ function uploadComment() {
     }
   }).then(function(response) {
     if (!response.ok) {
-      console.error();
+      console.error("Failed to verify Google account of comment poster.");
     }
   })
 }
@@ -145,7 +145,7 @@ function deleteComment(id) {
     }
   }).then(function(response) {
     if (!response.ok) {
-      console.error();
+      console.error("Failed to delete comment.");
     }
   })
 }
