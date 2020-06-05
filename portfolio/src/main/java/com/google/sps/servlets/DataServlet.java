@@ -48,12 +48,14 @@ public class DataServlet extends HttpServlet {
     private final String message;
     private final String pictureURL;
     private final String id;
+    private final String posterId; 
 
-    public Comment(String user, String message, String pictureURL, String id) {
+    public Comment(String user, String message, String pictureURL, String id, String posterId) {
       this.user = user;
       this.message = message;
       this.pictureURL = pictureURL;
       this.id = id;
+      this.posterId = posterId;
     }
   }
 
@@ -73,7 +75,8 @@ public class DataServlet extends HttpServlet {
       String user = (String) entity.getProperty("name");
       String pictureURL = (String) entity.getProperty("picture");
       String id = KeyFactory.keyToString(entity.getKey());
-      comments.add(new Comment(user, comment, pictureURL, id));
+      String posterId = (String) entity.getProperty("posterId");
+      comments.add(new Comment(user, comment, pictureURL, id, posterId));
     }
 
     Gson gson = new Gson();
@@ -110,6 +113,7 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("message", comment);
     commentEntity.setProperty("name", name);   
     commentEntity.setProperty("picture", pictureURL);
+    commentEntity.setProperty("posterId", key);
 
     datastore.put(commentEntity); 
     response.sendRedirect("/index.html");

@@ -64,18 +64,23 @@ function fetchComments() {
       const user = document.createElement("div");
       user.setAttribute("class", "user");
       user.append(document.createTextNode(comment.user));
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerHTML = "delete";
-      deleteBtn.addEventListener("click", function() {deleteComment(comment.id)});
+      
+      userInfo.append(picture);
+      userInfo.appendChild(user);
+      if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+        const currPosterId = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+        if (currPosterId === comment.posterId) {
+          const deleteBtn = document.createElement("button");
+          deleteBtn.innerHTML = "delete";
+          deleteBtn.addEventListener("click", function() {deleteComment(comment.id)});
+          userInfo.appendChild(deleteBtn);
+        }
+      }
 
       const message = document.createElement("div");
       message.setAttribute("class", "message");
       message.append(document.createTextNode(comment.message));
 
-      userInfo.append(picture);
-      userInfo.appendChild(user);
-      userInfo.appendChild(deleteBtn);
       div.appendChild(userInfo);
       div.appendChild(message);
       container.appendChild(div);
