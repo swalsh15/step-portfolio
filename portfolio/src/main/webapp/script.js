@@ -68,8 +68,8 @@ function fetchComments() {
       userInfo.append(picture);
       userInfo.appendChild(user);
       if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-        const currPosterId = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-        if (currPosterId === comment.posterId) {
+        const commenterEmail = gapi.auth2.init().currentUser.get().getBasicProfile().getEmail();
+        if (commenterEmail === comment.posterEmail) {
           const deleteBtn = document.createElement("button");
           deleteBtn.innerHTML = "delete";
           deleteBtn.addEventListener("click", function() {deleteComment(comment.id)});
@@ -131,7 +131,7 @@ function uploadComment() {
     }
   }).then(function(response) {
     if (!response.ok) {
-      // TODO: handle case when verification fails
+      console.error();
     }
   })
 }
@@ -145,7 +145,7 @@ function deleteComment(id) {
     }
   }).then(function(response) {
     if (!response.ok) {
-      // failure
+      console.error();
     }
   })
 }
