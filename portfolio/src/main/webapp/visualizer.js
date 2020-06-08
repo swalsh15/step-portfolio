@@ -4,27 +4,41 @@ google.charts.load('current', {
 });
 google.charts.setOnLoadCallback(drawRegionsMap);
 
-function drawRegionsMap() {
+
+function drawRegionsMap(i) {
+  if (typeof(i) == "undefined") {
+    i = 0;
+  }
+  const options = {
+    region: 'US',
+    colorAxis: {colors: ['white', 'green']},
+    displayMode: 'regions',
+    resolution: 'provinces', 
+    width: 900,
+    height: 500,
+    animation:{
+      duration: 1000,
+      easing: 'out',
+    }
+  };
+
+  let data = new google.visualization.DataTable();
+  data.addColumn('string', 'State');
+  data.addColumn('number', 'Cases');
+
   fetch('/covid-data').then(response => response.json()).then((covidData) => {
-
-    console.log(covidData);  
-
-    /*const data = new google.visualization.DataTable();
-    data.addColumn('string', 'State');
-    data.addColumn('number', 'Cases');
-    Object.keys(covidData).forEach((state) => {
-      data.addRow([state, covidData[state]]);
+    let curr = covidData[i].cases;
+    document.getElementById("date").textContent = "COVID Cases: " + covidData[i].date;
+    Object.keys(curr).forEach((state) => {
+      data.addRow([state, curr[state]]);
     });
-
-    const options = {
-      region: 'US',
-      colorAxis: {colors: ['white', 'green']},
-      displayMode: 'regions',
-      resolution: 'provinces', 
-      width: 900,
-      height: 500
-    };
     const chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-    chart.draw(data, options);*/
+    chart.draw(data, options);
   });
+}
+
+let i = 1;
+function nextDay() {
+  drawRegionsMap(i);
+  i += 1;
 }
