@@ -64,18 +64,23 @@ function fetchComments() {
       const user = document.createElement("div");
       user.setAttribute("class", "user");
       user.append(document.createTextNode(comment.user));
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerHTML = "delete";
-      deleteBtn.addEventListener("click", function() {deleteComment(comment.id)});
+      
+      userInfo.append(picture);
+      userInfo.appendChild(user);
+      if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+        const commenterEmail = gapi.auth2.init().currentUser.get().getBasicProfile().getEmail();
+        if (commenterEmail === comment.posterEmail) {
+          const deleteBtn = document.createElement("button");
+          deleteBtn.innerHTML = "delete";
+          deleteBtn.addEventListener("click", function() {deleteComment(comment.id)});
+          userInfo.appendChild(deleteBtn);
+        }
+      }
 
       const message = document.createElement("div");
       message.setAttribute("class", "message");
       message.append(document.createTextNode(comment.message));
 
-      userInfo.append(picture);
-      userInfo.appendChild(user);
-      userInfo.appendChild(deleteBtn);
       div.appendChild(userInfo);
       div.appendChild(message);
       container.appendChild(div);
@@ -126,7 +131,7 @@ function uploadComment() {
     }
   }).then(function(response) {
     if (!response.ok) {
-      // TODO: handle case when verification fails
+      console.error("Failed to verify Google account of comment poster.");
     }
   })
 }
@@ -140,7 +145,7 @@ function deleteComment(id) {
     }
   }).then(function(response) {
     if (!response.ok) {
-      // failure
+      console.error("Failed to delete comment.");
     }
   })
 }

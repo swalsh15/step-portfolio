@@ -48,12 +48,14 @@ public class DataServlet extends HttpServlet {
     private final String message;
     private final String pictureURL;
     private final String id;
+    private final String posterEmail; 
 
-    public Comment(String user, String message, String pictureURL, String id) {
+    public Comment(String user, String message, String pictureURL, String id, String posterEmail) {
       this.user = user;
       this.message = message;
       this.pictureURL = pictureURL;
       this.id = id;
+      this.posterEmail = posterEmail;
     }
   }
 
@@ -73,7 +75,8 @@ public class DataServlet extends HttpServlet {
       String user = (String) entity.getProperty("name");
       String pictureURL = (String) entity.getProperty("picture");
       String id = KeyFactory.keyToString(entity.getKey());
-      comments.add(new Comment(user, comment, pictureURL, id));
+      String posterEmail = (String) entity.getProperty("posterEmail");
+      comments.add(new Comment(user, comment, pictureURL, id, posterEmail));
     }
 
     Gson gson = new Gson();
@@ -87,10 +90,10 @@ public class DataServlet extends HttpServlet {
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
       .setAudience(Collections.singletonList("813751014340-ht5ugfu1pqj5a4gqq7rbvjk0sffu00it.apps.googleusercontent.com")).build();
     GoogleIdToken idToken = null;     
-    String key = request.getParameter("idtoken");
+    String posterId = request.getParameter("idtoken");
     
     try {
-      idToken = verifier.verify(key);
+      idToken = verifier.verify(posterId);
     } catch (Exception e) {
       // exception thrown if verifier.verify does not succeed
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Verification Failed: " + e.getMessage());
@@ -100,6 +103,7 @@ public class DataServlet extends HttpServlet {
     String name = (String) payload.get("name");
     String pictureURL = (String) payload.get("picture");
     String comment = request.getParameter("comment");
+    String posterEmail = (String) payload.get("email");
 
     if (comment == null) {
       response.sendRedirect("/index.html");
@@ -110,6 +114,7 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("message", comment);
     commentEntity.setProperty("name", name);   
     commentEntity.setProperty("picture", pictureURL);
+    commentEntity.setProperty("posterEmail", posterEmail);
 
     datastore.put(commentEntity); 
     response.sendRedirect("/index.html");
