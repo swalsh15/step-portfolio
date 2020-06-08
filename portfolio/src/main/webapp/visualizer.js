@@ -5,22 +5,26 @@ google.charts.load('current', {
 google.charts.setOnLoadCallback(drawRegionsMap);
 
 function drawRegionsMap() {
-  const data = google.visualization.arrayToDataTable([
-    ['City',   'Population', 'Area'],
-    ['Chicago', 2000000, 1285.31],
-    ['New York City', 5000000, 1400.31],
-    ['Los Angeles', 4000000, 1300],
-    ['Philadelphia', 1500000, 800],
-    ['Stamford', 30000, 900],
-  ]);
+  fetch('/covid-data').then(response => response.json()).then((covidData) => {
 
-  const options = {
-    region: 'US',
-    displayMode: 'markers',
-    colorAxis: {colors: ['white', 'green']},
-    width: 900,
-    height: 500
-  };
-  const chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-  chart.draw(data, options);
+    console.log(covidData);  
+
+    /*const data = new google.visualization.DataTable();
+    data.addColumn('string', 'State');
+    data.addColumn('number', 'Cases');
+    Object.keys(covidData).forEach((state) => {
+      data.addRow([state, covidData[state]]);
+    });
+
+    const options = {
+      region: 'US',
+      colorAxis: {colors: ['white', 'green']},
+      displayMode: 'regions',
+      resolution: 'provinces', 
+      width: 900,
+      height: 500
+    };
+    const chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+    chart.draw(data, options);*/
+  });
 }
