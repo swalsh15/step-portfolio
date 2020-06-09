@@ -124,3 +124,7 @@ main {
   display: flex;
   justify-content: center;
 }
+
+.date-instruct {
+  text-align: center;
+}

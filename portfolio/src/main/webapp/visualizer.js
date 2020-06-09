@@ -5,7 +5,7 @@ google.charts.load('current', {
 google.charts.setOnLoadCallback(initRegionsMap);
 
 // holds json on covid cases from fetch request. Holds date and cases by state
-let global_covid_data = []; 
+const global_covid_data = []; 
 
 function initRegionsMap() {
   fetch('/covid-data').then(response => response.json()).then((covidData) => {
@@ -24,6 +24,7 @@ function initRegionsMap() {
 function drawMap(index) {
   if (index >= global_covid_data.length || index < 0) {
     document.getElementById("date").textContent = "No data for this date";
+    index = 0;
     return; 
   }
   const options = {
