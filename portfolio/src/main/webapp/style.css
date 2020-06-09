@@ -119,3 +119,8 @@ main {
   align-items: center; 
   flex-direction: column;
 }
+
+.covid-button-bar {
+  display: flex;
+  justify-content: center;
+}
