@@ -16,8 +16,13 @@ public class CovidDataServlet extends HttpServlet {
   
   ArrayList<DateEntry> covidData = new ArrayList();
   
+  /*
+  * Object to hold COVID cases for each state for given day 
+  */
   private final class DateEntry {
+    // date represented as YYYY-MM-DD
     private String date;
+    // contains keys of full state name and values of cases in that state for given day
     private LinkedHashMap<String, Integer> cases = new LinkedHashMap();
 
     public DateEntry(String date) {
@@ -39,19 +44,21 @@ public class CovidDataServlet extends HttpServlet {
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");
-        
+      
+      String date = cells[0];
+      String state = cells[1];
+      Integer cases = Integer.valueOf(cells[3]);
+      
       // create new date entry if data changed 
-      if (!currDate.equals(cells[0])) {
-        // put old entry into arr
+      if (!currDate.equals(date)) {
+        // put old entry into arr, first entry is null 
         if (temp != null) {
           covidData.add(temp);
         }
-        temp = new DateEntry(cells[0]);
-        temp.addEntry(cells[1], Integer.valueOf(cells[3]));
-        currDate = cells[0];
-      } else {
-        temp.addEntry(cells[1], Integer.valueOf(cells[3]));
+        temp = new DateEntry(date);
+        currDate = date;
       }
+      temp.addEntry(state, cases); 
     }
     scanner.close();
   }
