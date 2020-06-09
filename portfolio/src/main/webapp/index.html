@@ -8,6 +8,8 @@
     <script src="script.js"></script>
     <meta name="google-signin-client_id" content="813751014340-ht5ugfu1pqj5a4gqq7rbvjk0sffu00it.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyCsIDmQAVTMjvXr6NZBm1O8b9Ve9EWREwk" async="" defer="defer"></script>
   </head>
   <body>
 
@@ -51,10 +53,10 @@
     <div class="project">
       <h1 id="project">Maps API</h1>
       <div class="divider"></div>
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyCsIDmQAVTMjvXr6NZBm1O8b9Ve9EWREwk" async="" defer="defer"></script>
       <script src="visualizer.js"></script>
+      <div id="date"></div>
       <div id="regions_div"></div>
+      <button id="animate-btn" onclick="nextDay()">></button>
     </div>
     
     <div class="project">
