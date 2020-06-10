@@ -35,7 +35,7 @@ function createMap() {
           street = street.replace(" ", "+");
           let city = result[i].physical_address[0].city;
           city = city.replace(" ", "+");
-          const state = result[i].physical_address[0].state_province;
+          const state = result[i].physical_address[0].state_province; 
 
           let url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
           url += street + ",+";
@@ -48,6 +48,45 @@ function createMap() {
             const longitude = coords.results[0].geometry.location.lng;
             const markerLocation = {lat: latitude, lng: longitude};
             const marker = new google.maps.Marker({position: markerLocation, map: map});
+
+            // get information to make info window
+            const locationName = result[i].name;
+            const description = result[i].description; 
+            let phoneNum = "";
+            if (result[i].phones[0] != undefined) {
+              phoneNum = result[i].phones[0].number; 
+            } 
+            
+            const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            let schedueleString = "";
+            if (result[i].regular_schedule != undefined) {
+              for (let j = 0; j < result[i].regular_schedule.length; j++) {
+                schedueleString += daysOfWeek[j] + ": " + result[i].regular_schedule[j].opens_at + " - ";
+                schedueleString += result[i].regular_schedule[j].closes_at + "<br>";
+              }
+            }
+            
+            // format info window message
+            const contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">' + locationName + '</h1>'+
+            '<div id="bodyContent">'+
+            '<p>' + description + '</p>'+
+            '<p> Phone Number: ' + phoneNum + '</p>'+
+            '<p> Hours </p>' +
+            '<p>' + schedueleString + '</p>' +
+            '</div>'+
+            '</div>';
+            
+            // create and add info window to marker
+            const infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+            marker.addListener('click', function() {
+              infowindow.open(map, marker);
+            });
+
           });
 
           }  
