@@ -53,16 +53,16 @@ function createMap() {
             const locationName = result[i].name;
             const description = result[i].description; 
             let phoneNum = "";
-            if (result[i].phones[0] != undefined) {
+            if (result[i].phones[0]) {
               phoneNum = result[i].phones[0].number; 
             } 
             
             const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-            let schedueleString = "";
-            if (result[i].regular_schedule != undefined) {
+            let scheduleString = "";
+            if (result[i].regular_schedule) {
               for (let j = 0; j < result[i].regular_schedule.length; j++) {
-                schedueleString += daysOfWeek[j] + ": " + result[i].regular_schedule[j].opens_at + " - ";
-                schedueleString += result[i].regular_schedule[j].closes_at + "<br>";
+                scheduleString += daysOfWeek[j] + ": " + result[i].regular_schedule[j].opens_at + " - ";
+                scheduleString += result[i].regular_schedule[j].closes_at + "<br>";
               }
             }
             
@@ -75,7 +75,7 @@ function createMap() {
             '<p>' + description + '</p>'+
             '<p> Phone Number: ' + phoneNum + '</p>'+
             '<p> Hours </p>' +
-            '<p>' + schedueleString + '</p>' +
+            '<p>' + scheduleString + '</p>' +
             '</div>'+
             '</div>';
             
