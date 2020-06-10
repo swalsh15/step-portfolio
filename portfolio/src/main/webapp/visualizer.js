@@ -5,12 +5,12 @@ google.charts.load('current', {
 google.charts.setOnLoadCallback(initRegionsMap);
 
 // holds json on covid cases from fetch request. Holds date and cases by state
-let global_data = []; 
+const global_covid_data = []; 
 
 function initRegionsMap() {
   fetch('/covid-data').then(response => response.json()).then((covidData) => {
     for (let i = 0; i < covidData.length; i++) {
-      global_data[i] = covidData[i];
+      global_covid_data[i] = covidData[i];
     }
     // draw map with inital data 
     drawMap(0); 
@@ -18,12 +18,13 @@ function initRegionsMap() {
 }
 
 /*
-* Draws map at date where date is index of global_data array
+* Draws map at date where index is index of global_data array
 * Index 0 corresponds with 2020-01-21
 */
-function drawMap(date) {
-  if (date >= global_data.length) {
+function drawMap(index) {
+  if (index >= global_covid_data.length || index < 0) {
     document.getElementById("date").textContent = "No data for this date";
+    index = 0;
     return; 
   }
   const options = {
@@ -39,8 +40,8 @@ function drawMap(date) {
   data.addColumn('string', 'State');
   data.addColumn('number', 'Cases');
 
-  document.getElementById("date").textContent = "COVID Cases: " + global_data[i].date;
-  let dailyCasesByState = global_data[i].cases;
+  document.getElementById("date").textContent = "COVID Cases: " + global_covid_data[index].date;
+  let dailyCasesByState = global_covid_data[index].cases;
   Object.keys(dailyCasesByState).forEach((state) => {
       data.addRow([state, dailyCasesByState[state]]);
     });
@@ -48,9 +49,10 @@ function drawMap(date) {
     chart.draw(data, options);
 }
 
+// stores what index in global_data to display
+let currIndexInCases = 0;
 // Draws map of cases for following day
-let i = 0;
-function nextDay() {
-  i++;
-  drawMap(i)
+function changeMapDate(increment) {
+  currIndexInCases += increment;
+  drawMap(currIndexInCases);
 }

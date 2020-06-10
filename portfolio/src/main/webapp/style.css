@@ -120,7 +120,17 @@ main {
   flex-direction: column;
 }
 
+
 #map {
   height: 400px;
   width: 100%;
+}
+
+.covid-button-bar {
+  display: flex;
+  justify-content: center;
+}
+
+.date-instruct {
+  text-align: center;
 }

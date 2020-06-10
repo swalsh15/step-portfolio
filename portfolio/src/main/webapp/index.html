@@ -56,7 +56,14 @@
       <script src="visualizer.js"></script>
       <div id="date"></div>
       <div id="regions_div"></div>
-      <button id="animate-btn" onclick="nextDay()">></button>
+
+      <p class="date-instruct">Change Date</p>
+      <div class="covid-button-bar">
+        <button onclick="changeMapDate(-10)"><<</button> 
+        <button onclick="changeMapDate(-1)"><</button>
+        <button onclick="changeMapDate(1)">></button>
+        <button onclick="changeMapDate(10)">>></button>
+      </div>
     </div>
 
     <div class="project">
