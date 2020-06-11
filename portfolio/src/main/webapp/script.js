@@ -42,7 +42,10 @@ function highlightTab() {
 function fetchComments() {
   // get num of comments to query
   const selectBar = document.getElementById("numComments");
-  const maxComments = selectBar.options[selectBar.selectedIndex].value;
+  let maxComments = "All";
+  if (selectBar) {
+    maxComments = selectBar.options[selectBar.selectedIndex].value;
+  }
 
   fetch('/comments?numComments=' + maxComments).then(response => response.json()).then((comments) => {
     // clear data-container
@@ -67,8 +70,9 @@ function fetchComments() {
       
       userInfo.append(picture);
       userInfo.appendChild(user);
-      if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-        const commenterEmail = gapi.auth2.init().currentUser.get().getBasicProfile().getEmail();
+      let auth2 = gapi.auth2.init(); 
+      if (auth2.isSignedIn) {
+        const commenterEmail = auth2.currentUser.le.Tt.Du;
         if (commenterEmail === comment.posterEmail) {
           const deleteBtn = document.createElement("button");
           deleteBtn.innerHTML = "delete";
@@ -88,10 +92,7 @@ function fetchComments() {
   });
 }
 
-window.onload = (event) => {
-  fetchComments();
-  changeCommentFormDisplay();
-};
+document.onload = fetchComments();
 
 function onSignIn(googleUser) {
   changeCommentFormDisplay(); 
