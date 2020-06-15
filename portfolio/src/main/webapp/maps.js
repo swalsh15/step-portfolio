@@ -23,7 +23,8 @@ function createMap() {
 
       // gets state from coordiates
       fetch(url).then(response => response.json()).then(result => {
-        state = result.results[7].address_components[0].long_name;
+        const addressLength = result.results[7].address_components.length;
+        state = result.results[7].address_components[addressLength - 2].long_name;
         state = state.toLowerCase();
         
         // call API to return testing site locations for variable state 
@@ -31,6 +32,10 @@ function createMap() {
         .then(response => response.json())
         .then(result => {
           for (let i = 0; i < result.length; i++) {
+          console.log(result[i]);
+          if (!result[i].physical_address[0]) {
+            continue;
+          }
           let street = result[i].physical_address[0].address_1;
           street = street.replace(" ", "+");
           let city = result[i].physical_address[0].city;

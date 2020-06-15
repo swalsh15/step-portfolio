@@ -62,12 +62,12 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment");
-    int numComents = 1;
+    int numComments = datastore.prepare(query).countEntities();
     try {
-      numComents = Integer.parseInt(request.getParameter("numComments"));
+      numComments = Integer.parseInt(request.getParameter("numComments"));
     } catch (Exception e) {}
 
-    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numComents));
+    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numComments));
     ArrayList<Comment> comments = new ArrayList();
 
     for (Entity entity : results) {
