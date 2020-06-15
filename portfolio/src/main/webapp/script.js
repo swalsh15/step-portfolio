@@ -42,12 +42,13 @@ function highlightTab() {
 function fetchComments() {
   // get num of comments to query
   const selectBar = document.getElementById("numComments");
-  let maxComments = "All";
+  let fetchURL = '/comments'
   if (selectBar) {
-    maxComments = selectBar.options[selectBar.selectedIndex].value;
+    fetchURL += '?numComments=';
+    fetchURL += selectBar.options[selectBar.selectedIndex].value;
   }
 
-  fetch('/comments?numComments=' + maxComments).then(response => response.json()).then((comments) => {
+  fetch(fetchURL).then(response => response.json()).then((comments) => {
     // clear data-container
     const container = document.getElementById("data-container")
     container.innerHTML = '';
@@ -70,8 +71,9 @@ function fetchComments() {
       
       userInfo.append(picture);
       userInfo.appendChild(user);
+      
       let auth2 = gapi.auth2.init(); 
-      if (auth2.isSignedIn) {
+      if (auth2 && auth2.isSignedIn && auth2.currentUser && auth2.currentUser.le && auth2.currentUser.le.Tt && auth2.currentUser.le.Tt.Du) {
         const commenterEmail = auth2.currentUser.le.Tt.Du;
         if (commenterEmail === comment.posterEmail) {
           const deleteBtn = document.createElement("button");
