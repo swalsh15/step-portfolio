@@ -24,9 +24,10 @@ import java.util.Comparator;
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
-    // if meeting only has optional members treat them as mandatory
     Collection<String> mandatoryMembers = new ArrayList();
     Collection<String> optionalMembers = new ArrayList();
+
+    // if meeting only has optional members treat them as mandatory
     if (request.getAttendees().isEmpty()) {
       mandatoryMembers = request.getOptionalAttendees();
     } else {
@@ -34,73 +35,20 @@ public final class FindMeetingQuery {
       optionalMembers = request.getOptionalAttendees(); 
     }
 
-    ArrayList<TimeRange> unavailableTimes = new ArrayList();   
-    ArrayList<TimeRange> unavailableTimesOptionalMembers = new ArrayList(); 
     // go through all events and find unavailable times
-    for (Event e : events) {
-      Set<String> attendes = e.getAttendees();
-      for (String s : mandatoryMembers) {
-        if (attendes.contains(s)) {
-          // someone un at time period
-          unavailableTimes.add(e.getWhen());
-          break;
-        }
-      }
+    ArrayList<TimeRange> unavailableTimes = findUnavailableTimesMandatoryAttendees(events, mandatoryMembers);   
 
-      for (String s : optionalMembers) {
-        if (attendes.contains(s)) {
-          // someone optional unavailable at time period
-          unavailableTimesOptionalMembers.add(e.getWhen());
-          break;
-        }
-      }
-    }
-
-    ArrayList<TimeRange> availableTimes = new ArrayList();
-    // stores starting time of available time range
-    int start = 0; 
-    // end of latest time period looked at 
-    int maxEnd = 0;
-
-    Collections.sort(unavailableTimes, TimeRange.ORDER_BY_START);
-    for (TimeRange t : unavailableTimes) {
-      // checks if meeting nested in other - ignore meeting in this case
-      if (t.end() > maxEnd) {
-        maxEnd = t.end();
-      } else {
-        continue;
-      }
-
-      // check time period long enough for meeting
-      if (t.start() - start < request.getDuration()) {
-        start = t.end(); 
-        continue; 
-      }
-
-      // add avaliable time
-      availableTimes.add(TimeRange.fromStartEnd(start, t.start(), false));
-      start = t.end();     
-    }
-
-    // add from start - end check
-    if (TimeRange.END_OF_DAY - start > request.getDuration()) {
-      availableTimes.add(TimeRange.fromStartEnd(start, TimeRange.END_OF_DAY, true));
-    } 
-
-    // handle optional members if presenet
+    // find available times from unavilable times from mandatory members
+    ArrayList<TimeRange> availableTimes = findAvalibaleTimesMandatoryMembers(unavailableTimes, request);
+    
+    // handle optional members if present
     if (optionalMembers.isEmpty()) {
       return availableTimes;
     }
-
+    
     // add times where mandatory and optional members not busy  
-    ArrayList<TimeRange> optionalMemberTimes = new ArrayList();
-    for (TimeRange availableTime : availableTimes) {
-      for (TimeRange unavailableOptionalTime : unavailableTimesOptionalMembers) {
-        if (!availableTime.overlaps(unavailableOptionalTime)) {
-          optionalMemberTimes.add(availableTime);
-        }
-      }
-    }
+    ArrayList<TimeRange> unavailableTimesOptionalMembers = findUnavailableTimesOptionalAttendees(events, optionalMembers); 
+    ArrayList<TimeRange> optionalMemberTimes = findTimeWithOptionalMembers(availableTimes, unavailableTimesOptionalMembers);
 
     // if no times work for optional members return all times for mandatory members
     if (optionalMemberTimes.isEmpty()) {
@@ -108,5 +56,85 @@ public final class FindMeetingQuery {
     } else {
       return optionalMemberTimes;
     }
+  }
+
+  // finds unavailable times for list of mandatory attendees 
+  public ArrayList<TimeRange> findUnavailableTimesMandatoryAttendees(Collection<Event> events, Collection<String> mandatoryMembers) {
+    ArrayList<TimeRange> unavailableTimes = new ArrayList();
+    for (Event e : events) {
+      Set<String> attendes = e.getAttendees();
+      for (String s : mandatoryMembers) {
+        if (attendes.contains(s)) {
+          // someone unavailable at time period
+          unavailableTimes.add(e.getWhen());
+          break;
+        }
+      }
+    }
+    return unavailableTimes; 
+  }
+
+  // finds unavailable times for list of optional attendees
+  public ArrayList<TimeRange> findUnavailableTimesOptionalAttendees(Collection<Event> events, Collection<String> optionalMembers) {
+    ArrayList<TimeRange> unavailableTimes = new ArrayList();
+    for (Event e : events) {
+      Set<String> attendes = e.getAttendees();
+      for (String s : optionalMembers) {
+        if (attendes.contains(s)) {
+          // someone is unavailable at time period
+          unavailableTimes.add(e.getWhen());
+          break;
+        }
+      }
+    }
+    return unavailableTimes; 
+  }
+
+  // find times where all mandatory members are free
+  public ArrayList<TimeRange> findAvalibaleTimesMandatoryMembers(ArrayList<TimeRange> unavailableTimes, MeetingRequest request) {
+    ArrayList<TimeRange> availableTimes = new ArrayList(); 
+    // stores starting time of available time range
+    int prevMeetingEnd = 0; 
+    // end of latest time period looked at 
+    int currMettingEnd = 0;
+
+    Collections.sort(unavailableTimes, TimeRange.ORDER_BY_START);
+    for (TimeRange unavailableTimeRange : unavailableTimes) {
+      // checks if meeting nested in other - ignore meeting in this case
+      if (unavailableTimeRange.end() > currMettingEnd) {
+        currMettingEnd = unavailableTimeRange.end();
+      } else {
+        continue;
+      }
+
+      // check time period long enough for meeting
+      if (unavailableTimeRange.start() - prevMeetingEnd < request.getDuration()) {
+        prevMeetingEnd = unavailableTimeRange.end(); 
+        continue; 
+      }
+
+      // add avaliable time
+      availableTimes.add(TimeRange.fromStartEnd(prevMeetingEnd, unavailableTimeRange.start(), false));
+      prevMeetingEnd = unavailableTimeRange.end();     
+    }
+
+    // add from start - end check
+    if (TimeRange.END_OF_DAY - prevMeetingEnd > request.getDuration()) {
+      availableTimes.add(TimeRange.fromStartEnd(prevMeetingEnd, TimeRange.END_OF_DAY, true));
+    } 
+    return availableTimes; 
+  }
+ 
+  // find times when all optional members are free
+  public ArrayList<TimeRange> findTimeWithOptionalMembers(ArrayList<TimeRange> availableTimes, ArrayList<TimeRange> unavailableTimesOptionalMembers) {
+    ArrayList<TimeRange> optionalMemberTimes = new ArrayList(); 
+    for (TimeRange availableTime : availableTimes) {
+      for (TimeRange unavailableOptionalTime : unavailableTimesOptionalMembers) {
+        if (!availableTime.overlaps(unavailableOptionalTime)) {
+          optionalMemberTimes.add(availableTime);
+        }
+      }
+    }
+    return optionalMemberTimes; 
   }
 }
