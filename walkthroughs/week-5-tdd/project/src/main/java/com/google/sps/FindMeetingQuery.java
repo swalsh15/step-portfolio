@@ -39,7 +39,7 @@ public final class FindMeetingQuery {
     ArrayList<TimeRange> unavailableTimes = findUnavailableTimesMandatoryAttendees(events, mandatoryMembers);   
 
     // find available times from unavilable times from mandatory members
-    ArrayList<TimeRange> availableTimes = findAvalibaleTimesMandatoryMembers(unavailableTimes, request);
+    ArrayList<TimeRange> availableTimes = findAvailableTimesMandatoryMembers(unavailableTimes, request);
     
     // handle optional members if present
     if (optionalMembers.isEmpty()) {
@@ -91,7 +91,7 @@ public final class FindMeetingQuery {
   }
 
   // find times where all mandatory members are free
-  public ArrayList<TimeRange> findAvalibaleTimesMandatoryMembers(ArrayList<TimeRange> unavailableTimes, MeetingRequest request) {
+  public ArrayList<TimeRange> findAvailableTimesMandatoryMembers(ArrayList<TimeRange> unavailableTimes, MeetingRequest request) {
     ArrayList<TimeRange> availableTimes = new ArrayList(); 
     // stores starting time of available time range
     int prevMeetingEnd = 0; 
